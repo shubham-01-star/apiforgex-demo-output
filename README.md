@@ -10,6 +10,8 @@ Framework: Express.js
 
 Database: postgresql
 
+
+
 ORM: Prisma
 
 Language: TypeScript
@@ -87,4 +89,5 @@ Replace "someField" and "value" with actual fields for the User entity.
   /routes        - Express route definitions
   /utils         - Utility functions
   server.ts      - Entry point of the application       
+
 
