@@ -1,0 +1,43 @@
+// This is your Prisma schema file
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Products {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  id Int
+  product_name String
+  description String?
+}
+
+model Warehouses {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  id Int
+  warehouse_name String
+  location String?
+}
+
+model StockMovements {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  id Int
+  stock_movement_date DateTime
+  warehouse_id Int
+  product_id Int
+  quantity Float
+}
+
