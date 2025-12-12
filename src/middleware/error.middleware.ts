@@ -1,5 +1,6 @@
 interface AppError extends Error {
   statusCode?: number;
+  details?: unknown;
 }
 export const errorHandler = (err: AppError, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);

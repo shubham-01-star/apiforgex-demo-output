@@ -5,7 +5,7 @@ export const create = async (data: Prisma.UserCreateInput) => {
     data
   });
 };
- 
+
 export const findAll = async () => {
   return await prisma.user.findMany();
 };

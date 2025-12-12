@@ -46,7 +46,7 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
 
 // Define a validation utility function to ensure req.params.id is a positive integer
 function validateId(id: string) {
-  const regex = /^-\d+$/; // Regular expression for negative integers
+  const regex = /^\d+$/; // Regular expression for positive integers
   if (!regex.test(id)) throw new Error('Invalid ID');
 }
 
@@ -68,3 +68,41 @@ function validateBody(reqBody: any) {
     throw new Error('Invalid request body');
   }
 }
+
+// Update sendResponse to return success false for 4xx/5xx status codes
+function updatedSendResponse(res: Response, statusCode: number, item?: any, message?: string): void {
+  if (statusCode >= 400) res.status(statusCode).send({ success: false, error: '', data: item ?? undefined, message: message });
+  else res.status(statusCode).send({ success: true, error: '', data: item ?? undefined, message: message });
+}
+
+export const getUserByIdUpdated = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    validateId(req.params.id); // Validate the ID before proceeding
+    const item = await UserService.findById(Number(req.params.id));
+    if (!item) return updatedSendResponse(res, 404, null, 'User not found');
+    
+    updatedSendResponse(res, 200, item);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteUserUpdated = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    validateId(req.params.id); // Validate the ID before proceeding
+    await UserService.remove(Number(req.params.id));
+    updatedSendResponse(res, 200, null, 'User deleted successfully');
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const createUserUpdated = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    validateBody(req.body); // Validate the request body
+    const item = await UserService.create(req.body);
+    updatedSendResponse(res, 201, item, 'User created successfully');
+  } catch (error) {
+    next(error);
+  }
+};
