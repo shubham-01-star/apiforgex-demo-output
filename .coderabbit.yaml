@@ -1,12 +1,11 @@
 reviews:
--# Enable high-level summary
+- # Enable high-level summary
 -high_level_summary: true
 -
--# Review the changes in the context of the entire file
+- # Review the changes in the context of the entire file
 -auto_review:
-    enabled: true
-    drafts: false
-+  high_level_summary: true
-+
+  enabled: true
+  drafts: false
+  +high_level_summary: true
 + chat:
 +   auto_reply: true

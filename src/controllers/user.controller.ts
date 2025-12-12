@@ -15,6 +15,8 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction) 
 export const getUserById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     validateId(req.params.id); // Validate the ID before proceeding
+    if (!Number.isInteger(Number(req.params.id))) throw new Error('Invalid ID');
+    
     const item = await UserService.findById(Number(req.params.id));
     if (!item) return sendResponse(res, 404, null, 'User not found');
     
@@ -27,7 +29,11 @@ export const getUserById = async (req: Request, res: Response, next: NextFunctio
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     validateBody(req.body); // Validate the request body
-    const item = await UserService.create(req.body);
+    const { name, email } = req.body;
+    
+    if (!name || !email) throw new Error('Missing required fields');
+    
+    const item = await UserService.create({ name, email });
     sendResponse(res, 201, item, 'User created successfully');
   } catch (error) {
     next(error);
@@ -37,6 +43,8 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
 export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     validateId(req.params.id); // Validate the ID before proceeding
+    if (!Number.isInteger(Number(req.params.id))) throw new Error('Invalid ID');
+    
     await UserService.remove(Number(req.params.id));
     sendResponse(res, 200, null, 'User deleted successfully');
   } catch (error) {
@@ -78,6 +86,8 @@ function updatedSendResponse(res: Response, statusCode: number, item?: any, mess
 export const getUserByIdUpdated = async (req: Request, res: Response, next: NextFunction) => {
   try {
     validateId(req.params.id); // Validate the ID before proceeding
+    if (!Number.isInteger(Number(req.params.id))) throw new Error('Invalid ID');
+    
     const item = await UserService.findById(Number(req.params.id));
     if (!item) return updatedSendResponse(res, 404, null, 'User not found');
     
@@ -90,6 +100,8 @@ export const getUserByIdUpdated = async (req: Request, res: Response, next: Next
 export const deleteUserUpdated = async (req: Request, res: Response, next: NextFunction) => {
   try {
     validateId(req.params.id); // Validate the ID before proceeding
+    if (!Number.isInteger(Number(req.params.id))) throw new Error('Invalid ID');
+    
     await UserService.remove(Number(req.params.id));
     updatedSendResponse(res, 200, null, 'User deleted successfully');
   } catch (error) {
@@ -100,7 +112,9 @@ export const deleteUserUpdated = async (req: Request, res: Response, next: NextF
 export const createUserUpdated = async (req: Request, res: Response, next: NextFunction) => {
   try {
     validateBody(req.body); // Validate the request body
-    const item = await UserService.create(req.body);
+    if (!req.body.name || !req.body.email) throw new Error('Missing required fields');
+    
+    const item = await UserService.create({ name: req.body.name, email: req.body.email });
     updatedSendResponse(res, 201, item, 'User created successfully');
   } catch (error) {
     next(error);

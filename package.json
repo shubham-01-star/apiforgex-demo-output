@@ -13,14 +13,14 @@
     "express": "^4.21.2",
     "cors": "^3.8.5",
     "dotenv": "^16.4.5",
-    "@prisma/client": "^6.0.0"
+    "@prisma/client": "^6.0.1"
   },
   "devDependencies": {
-    "typescript": "^5.7.2",
+    "typescript": "^5.7.3",
     "ts-node-dev": "^2.0.0",
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.0",
     "@types/cors": "^3.8.18",
-    "prisma": "^6.0.0"
+    "prisma": "^6.0.1"
   }
 }
