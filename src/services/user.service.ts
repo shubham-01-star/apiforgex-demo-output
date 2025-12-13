@@ -1,25 +1,35 @@
-import { prisma } from '../config/db.config';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcryptjs';
+import { Repository } from 'typeorm';
 
-// Service Layer: Handles Business Logic and Database Interactions
+@Injectable()
+export class UserService {
+  constructor(
+    @InjectRepository('User')
+    private readonly userRepository: Repository<User>,
+  ) {}
 
-export const findAll = async () => {
-  return await prisma.user.findMany();
-};
+  async createUser(data: any) {
+    const hashedPassword = await bcrypt.hash(data.password, 10);
+    data.password = hashedPassword;
+    return this.userRepository.create(data).save();
+  }
 
-export const findById = async (id: number) => {
-  return await prisma.user.findUnique({
-    where: { id }
-  });
-};
+  async getUserById(id: number) {
+    return this.userRepository.findOne(id);
+  }
 
-export const create = async (data: any) => {
-  return await prisma.user.create({
-    data
-  });
-};
+  async getUsers() {
+    return this.userRepository.find();
+  }
 
-export const remove = async (id: number) => {
-  return await prisma.user.delete({
-    where: { id }
-  });
-};
+  async updateUserService(data: any, id: number) {
+    data.password = undefined;
+    return this.userRepository.update(id, data).then(() => this.getUserById(id));
+  }
+
+  async deleteUser(id: number) {
+    return this.userRepository.delete(id);
+  }
+}

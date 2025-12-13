@@ -16,7 +16,6 @@ model User {
   
   id Int
   username String?
-  email String?
 }
 
 model Todo {
@@ -25,7 +24,7 @@ model Todo {
   updatedAt DateTime @updatedAt
   
   id Int
-  title String?
-  description String?
+  title String
+  userId Int?
 }
 

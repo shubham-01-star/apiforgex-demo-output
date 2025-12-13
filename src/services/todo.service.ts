@@ -1,25 +1,32 @@
-import { prisma } from '../config/db.config';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Todo } from './todo.entity';
 
-// Service Layer: Handles Business Logic and Database Interactions
+@Injectable()
+export class TodoService {
+  constructor(
+    @InjectRepository(Todo)
+    private readonly todoRepository: Repository<Todo>,
+  ) {}
 
-export const findAll = async () => {
-  return await prisma.todo.findMany();
-};
+  async getAllTodos(): Promise<Todo[]> {
+    return await this.todoRepository.find();
+  }
 
-export const findById = async (id: number) => {
-  return await prisma.todo.findUnique({
-    where: { id }
-  });
-};
+  async getTodoById(id: number): Promise<Todo | null> {
+    return await this.todoRepository.findOne(id);
+  }
 
-export const create = async (data: any) => {
-  return await prisma.todo.create({
-    data
-  });
-};
+  async createTodo(todo: Todo): Promise<Todo> {
+    return await this.todoRepository.save(todo);
+  }
 
-export const remove = async (id: number) => {
-  return await prisma.todo.delete({
-    where: { id }
-  });
-};
+  async updateTodo(todo: Todo): Promise<void> {
+    await this.todoRepository.update(todo.id, todo);
+  }
+
+  async deleteTodo(id: number): Promise<void> {
+    await this.todoRepository.delete(id);
+  }
+}
