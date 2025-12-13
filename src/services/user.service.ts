@@ -1,25 +1,42 @@
-import { prisma } from '../config/db.config';
+import { Injectable } from '@nestjs/common';
+import { UserEntity } from '../entities/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import * as crypto from 'crypto';
 
-// Service Layer: Handles Business Logic and Database Interactions
+@Injectable()
+export class UserService {
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
+  ) {}
 
-export const findAll = async () => {
-  return await prisma.user.findMany();
-};
+  async getUserById(id: number): Promise<UserEntity | null> {
+    return this.userRepository.findOne(id);
+  }
 
-export const findById = async (id: number) => {
-  return await prisma.user.findUnique({
-    where: { id }
-  });
-};
+  async createNewUser(userData: { username: string; password: string }): Promise<UserEntity> {
+    const user = new UserEntity();
+    Object.assign(user, userData);
+    user.password = crypto.createHash('sha256').update(userData.password).digest('hex');
+    return this.userRepository.save(user);
+  }
 
-export const create = async (data: any) => {
-  return await prisma.user.create({
-    data
-  });
-};
+  async updateExistingUser(id: number, userData: { username?: string; password?: string }): Promise<UserEntity> {
+    const existingUser = await this.getUserById(id);
 
-export const remove = async (id: number) => {
-  return await prisma.user.delete({
-    where: { id }
-  });
-};
+    if (!existingUser) {
+      throw new Error('User not found');
+    }
+
+    Object.assign(existingUser, userData);
+    if (userData.password) {
+      existingUser.password = crypto.createHash('sha256').update(userData.password).digest('hex');
+    }
+    return this.userRepository.save(existingUser);
+  }
+
+  async deleteExistingUser(id: number): Promise<void> {
+    await this.userRepository.delete(id);
+  }
+}

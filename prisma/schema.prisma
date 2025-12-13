@@ -14,7 +14,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   
-  id Int
+  userId Int
   username String
 }
 
@@ -23,7 +23,7 @@ model Todo {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   
-  id Int
+  todoId Int
   title String
   description String?
 }
