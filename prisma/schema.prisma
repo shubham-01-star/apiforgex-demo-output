@@ -1,12 +1,10 @@
-// This is your Prisma schema file
-
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
 }
 
 model Task {
@@ -24,8 +22,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   
+  @unique(username: true)
   id Int
   username String
-  email String?
+  email String? @unique(email: true)
 }
-

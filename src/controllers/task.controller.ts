@@ -1,10 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
-import * as TaskService from '../services/task.service';
-import { sendResponse } from '../utils/response.util';
+import taskService from '../services/task.service';
 
 export const getTasks = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const items = await TaskService.findAll();
+    const items = await taskService.getTasks();
     sendResponse(res, 200, items);
   } catch (error) {
     next(error);
@@ -13,7 +12,9 @@ export const getTasks = async (req: Request, res: Response, next: NextFunction) 
 
 export const getTaskById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const item = await TaskService.findById(Number(req.params.id));
+    const id = Number(req.params.id);
+    const item = await taskService.getTask(id);
+    
     if (!item) return sendResponse(res, 404, null, 'Task not found');
     
     sendResponse(res, 200, item);
@@ -24,7 +25,9 @@ export const getTaskById = async (req: Request, res: Response, next: NextFunctio
 
 export const createTask = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const item = await TaskService.create(req.body);
+    const title = req.body.title;
+    const description = req.body.description;
+    const item = await taskService.createTask(title, description);
     sendResponse(res, 201, item, 'Task created successfully');
   } catch (error) {
     next(error);
@@ -33,7 +36,7 @@ export const createTask = async (req: Request, res: Response, next: NextFunction
 
 export const deleteTask = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    await TaskService.remove(Number(req.params.id));
+    await taskService.deleteTask(Number(req.params.id));
     sendResponse(res, 200, null, 'Task deleted successfully');
   } catch (error) {
     next(error);

@@ -1,9 +1,16 @@
 {
 "version": 2,
-"rewrites": [
-{
-"source": "/(.*)",
-"destination": "/src/index.ts"
-}
-]
+"builds": [
+  {
+    "src": "package.json",
+    "use": "@vercel/node"
+  }
+],
+"routes": [
+  {
+    "src": "/(.*)",
+    "dest": "/dist/index.js"
+  }
+],
+"destination": "/dist/index.js"
 }

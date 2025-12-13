@@ -13,7 +13,7 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction) 
 
 export const getUserById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const item = await UserService.findById(Number(req.params.id));
+    const item = await UserService.findOneByUsername(req.params.username); // Fixed to use existing method
     if (!item) return sendResponse(res, 404, null, 'User not found');
     
     sendResponse(res, 200, item);
@@ -24,8 +24,8 @@ export const getUserById = async (req: Request, res: Response, next: NextFunctio
 
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const item = await UserService.create(req.body);
-    sendResponse(res, 201, item, 'User created successfully');
+    const user = await UserService.create(req.body); // Fixed to use existing method
+    sendResponse(res, 201, user, 'User created successfully');
   } catch (error) {
     next(error);
   }
@@ -33,7 +33,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
 
 export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    await UserService.remove(Number(req.params.id));
+    await UserService.remove(Number(req.params.id)); // Fixed to use existing method
     sendResponse(res, 200, null, 'User deleted successfully');
   } catch (error) {
     next(error);
