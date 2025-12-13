@@ -1,18 +1,23 @@
+import { Entity, Column, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm';
+
+@Entity()
 export class User {
-  public username: string;
-  public email: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  constructor(username: string, email: string) {
-    this.username = username;
-    this.email = email;
+  @Column({ length: 32 })
+  username: string;
+
+  async beforeInsert() {
+    this.username = await User.generateUniqueUsername();
   }
 
-  static createFromDatabaseRow(row: any): User {
-    const user = new User(row['username'], row['email']);
-    return user;
-  }
-
-  static getTableName(): string {
-    return 'users';
+  static generateUniqueUsername(): Promise<string> {
+    return User.query
+      .select('username', 'count')
+      .from('users')
+      .where('username = $1', this.username)
+      .count(1)
+      .then(result => result[0].count > 0 ? generateUniqueUsername() : this.username);
   }
 }

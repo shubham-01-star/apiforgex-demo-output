@@ -1,93 +1,70 @@
-import { Injectable } from '@nestjs/common';
-import * as stripe from 'stripe';
+import { StripeService } from '@stripe/stripe-js';
+import StripeServiceOptions from './StripeServiceOptions';
 
-@Injectable()
-export class PaymentService {
-  private stripeKey = process.env.STRIPE_SECRET_KEY;
+class PaymentService {
+  private stripeService: StripeService;
 
-  constructor() {}
+  constructor(options: StripeServiceOptions) {
+    this.stripeService = new StripeService(options.stripeSecretKey);
+  }
 
-  async createPaymentIntent(userId: number) {
-    const stripeCustomer = await this.getStripeCustomer(userId);
-    if (!stripeCustomer) return null;
-    const paymentIntent = await stripe.paymentIntents.create({
-      customer: stripeCustomer.id,
-      amount: 1000,
+  async processPayment(user_id: number, paymentIntentId?: string): Promise<void> {
+    if (!user_id) {
+      throw new Error('User ID is required');
+    }
+    const paymentMethod = await this.stripeService.paymentMethods.create({
+      type: 'card',
+      card: {
+        number: user_id.toString(),
+        exp_month: Math.floor(Math.random() * 12),
+        exp_year: Math.floor(Math.random() * 2000) + 2000,
+        cvc: Math.floor(Math.random() * 10000),
+      },
     });
-    return paymentIntent.id;
-  }
-
-  async getStripeCustomer(userId: number): Promise<stripe.Customer> {
-    try {
-      const user = await this.getUserRepository().findOne({ where: { id: userId } });
-      if (!user) throw new Error('User not found');
-      const stripeCustomer = await stripe.customers.retrieve(user.stripeCustomerId);
-      return stripeCustomer;
-    } catch (error) {
-      console.error(error);
-      return null;
+    const paymentIntent = await this.stripeService.paymentIntents.retrieve(paymentIntentId);
+    if (!paymentIntent || !paymentIntent.client_secret) {
+      throw new Error('Payment Intent is invalid');
     }
+    return this.stripeService.paymentIntents.confirm(
+      paymentIntent.id,
+      { payment_method: paymentMethod.id },
+    );
   }
 
-  async getPaymentIntentId(userId: number): Promise<string> {
-    try {
-      const paymentIntent = await this.createPaymentIntent(userId);
-      if (!paymentIntent) return '';
-      return paymentIntent.id;
-    } catch (error) {
-      console.error(error);
-      return '';
+  async cancelPayment(user_id: number, paymentIntentId?: string): Promise<void> {
+    if (!user_id) {
+      throw new Error('User ID is required');
     }
+    const paymentIntent = await this.stripeService.paymentIntents.retrieve(paymentIntentId);
+    if (!paymentIntent || !paymentIntent.client_secret) {
+      throw new Error('Payment Intent is invalid');
+    }
+    return this.stripeService.paymentIntents.cancel(
+      paymentIntent.id,
+      { reason: 'Cancel', payment_method: null },
+    );
   }
 
-  async createOrderPaymentIntent(stripeToken: string, userId: number): Promise<string> {
-    try {
-      const paymentIntentId = await this.getPaymentIntentId(userId);
-      if (!paymentIntentId) throw new Error('No existing payment intent found');
-      const paymentIntent = await stripe.paymentIntents.modify(
-        paymentIntentId,
+  async createOrder(user_id: number, orderTotal: number): Promise<void> {
+    if (!user_id) {
+      throw new Error('User ID is required');
+    }
+    const clientSecret = await this.stripeService.orders.create({
+      user: user_id.toString(),
+      currency: 'usd',
+      line_items: [
         {
-          customer: userId,
-          amount: 1000,
+          price_data: {
+            currency: 'usd',
+            unit_amount: Math.floor(orderTotal * 100),
+            product_details: { name: `Order #${Math.floor(Math.random() * 10)}` },
+          },
+          quantity: 1,
         },
-      );
-      return paymentIntent.id;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  }
-
-  async createOrder(stripeToken: string, userId: number): Promise<stripe.Order> {
-    try {
-      const paymentIntentId = await this.createOrderPaymentIntent(stripeToken, userId);
-      if (!paymentIntentId) throw new Error('Failed to create order');
-      const order = await stripe.orders.create({
-        customer: userId,
-        payment_intent: paymentIntentId,
-      });
-      return order;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  }
-
-  async refundOrder(orderId: string, userId: number): Promise<stripe.Refund> {
-    try {
-      const stripeRefund = await stripe.refunds.create({
-        order: orderId,
-        amount: 1000,
-      });
-      return stripeRefund;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  }
-
-  private getUserRepository(): any {
-    // implement custom database repository
-    return null;
+      ],
+    });
+    return clientSecret;
   }
 }
+
+export default PaymentService;
