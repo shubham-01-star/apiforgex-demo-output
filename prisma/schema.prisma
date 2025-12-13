@@ -24,6 +24,6 @@ model User {
   
   @unique(username: true)
   id Int
-  username String
+  username String @unique
   email String? @unique(email: true)
 }
