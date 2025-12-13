@@ -1,0 +1,34 @@
+# CodeRabbit Configuration
+version: "0.1"
+
+reviews:
+# Enable high-level summary
+high_level_summary: true
+
+# Review the changes in the context of the entire file
+verification_status: true
+
+# Auto-review behavior
+auto_review:
+enabled: true
+drafts: false
+path_filters:
+- "!**/package-lock.json"
+- "!**/yarn.lock"
+- "!**/*.lock"
+
+request_changes_workflow: false
+
+instructions: |
+Please provide feedback only on critical bugs, security vulnerabilities, or significant performance issues.
+Avoid stylistic nitpicks or opinionated suggestions.
+Be concise and action-oriented.
+If the code looks good, simply approve.
+
+chat:
+auto_reply: true
+
+# Knowledge base for context (optional)
+# knowledge_base:
+# - name: "ProjectContext"
+# file: "README.md"
