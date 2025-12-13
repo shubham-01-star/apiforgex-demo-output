@@ -1,11 +1,11 @@
 version: "0.1"
- 
+
 reviews:
   high_level_summary: true
   verification_status: true
   auto_review:
     enabled: true
     drafts: false
- 
+
 chat:
   auto_reply: true
