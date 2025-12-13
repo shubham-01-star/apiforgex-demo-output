@@ -1,41 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import * as crypto from 'crypto';
+import { TodoModel } from '../models/Todo.model';
 
 @Injectable()
 export class TodoService {
-
-  constructor(
-    @InjectRepository('todos')
-    private readonly todosRepository: Repository<any>,
-  ) {}
-
-  async createTodo(todoData) {
-    const hashedPassword = crypto.createHash('sha256').update(todoData.password).digest('hex');
-    todoData.password = hashedPassword;
-    return this.todosRepository.save(todoData);
+  async findAll(): Promise<TodoModel[]> {
+    // TO DO: Implement a database query to fetch all todos
+    return [];
   }
 
-  async getAllTodos() {
-    return this.todosRepository.find();
-  }
-
-  async getTodoById(id) {
-    return this.todosRepository.findOne({ where: { id } });
-  }
-
-  async updateTodoById(id, todoData) {
-    const todo = await this.getTodoById(id);
-    if (todo) {
-      Object.assign(todo, todoData);
-      return this.todosRepository.save(todo);
-    }
+  async findOne(id: number): Promise<TodoModel | null> {
+    // TO DO: Implement a database query to find a todo by id
     return null;
   }
 
-  async deleteTodoById(id) {
-    return this.todosRepository.delete({ id });
+  async create(todo: TodoModel): Promise<TodoModel> {
+    // TO DO: Implement database logic to save the new todo item
+    return todo;
   }
 
+  async update(id: number, todo: Partial<TodoModel>): Promise<TodoModel | null> {
+    // TO DO: Implement database logic to update a todo item
+    return null;
+  }
+
+  async remove(id: number): Promise<void> {
+    // TO DO: Implement database logic to delete a todo item
+  }
 }

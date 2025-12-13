@@ -1,7 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { User } from './user.entity';
+import * as pg from 'pg';
+import { Repository, TypeORMModuleOptions } from 'typeorm';
+
+const connectionConfig = {
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+};
 
 @Injectable()
 export class UserService {
@@ -10,28 +17,16 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async findAll(): Promise<User[]> {
-    return this.userRepository.find();
+  async createUser(username: string, password: string) {
+    const query = `
+      INSERT INTO users (username, password)
+      VALUES ($1, $2)
+    `;
+    const params = [username, password];
+    await this.userRepository.insert(params);
   }
 
-  async findOne(id: number): Promise<User | undefined> {
+  async getUserById(id: number) {
     return this.userRepository.findOne(id);
-  }
-
-  async create(user: User): Promise<User> {
-    return this.userRepository.save(user);
-  }
-
-  async update(id: number, user: Partial<User>): Promise<User> {
-    const existingUser = await this.findOne(id);
-    if (!existingUser) {
-      throw new Error('User not found');
-    }
-    Object.assign(existingUser, user);
-    return this.userRepository.save(existingUser);
-  }
-
-  async remove(id: number): Promise<void> {
-    await this.userRepository.delete(id);
   }
 }

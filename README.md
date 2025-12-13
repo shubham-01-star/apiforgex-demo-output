@@ -51,35 +51,35 @@ Health Check
 GET / - Check if API is running.
 
 
-users
+User
 
-GET    /api/userss      - Get all userss
+GET    /api/users      - Get all Users
 
-GET    /api/userss/:id  - Get users by ID
+GET    /api/users/:id  - Get User by ID
 
-POST   /api/userss      - Create a new users
+POST   /api/users      - Create a new User
 
-DELETE /api/userss/:id  - Delete users
+DELETE /api/users/:id  - Delete User
 
-todos
+Todo
 
-GET    /api/todoss      - Get all todoss
+GET    /api/todos      - Get all Todos
 
-GET    /api/todoss/:id  - Get todos by ID
+GET    /api/todos/:id  - Get Todo by ID
 
-POST   /api/todoss      - Create a new todos
+POST   /api/todos      - Create a new Todo
 
-DELETE /api/todoss/:id  - Delete todos
+DELETE /api/todos/:id  - Delete Todo
 
 🧪 Testing
 
 You can test these endpoints using Postman or curl.
 
-# Example: Create a new users
-curl -X POST http://localhost:3000/api/userss \
+# Example: Create a new User
+curl -X POST http://localhost:3000/api/users \
   -H "Content-Type: application/json" \
   -d '{"someField": "value"}'
-Replace "someField" and "value" with actual fields for the users entity.
+Replace "someField" and "value" with actual fields for the User entity.
 📦 Project Structure
 /src
   /controllers   - Route handlers for API endpoints

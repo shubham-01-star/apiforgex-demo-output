@@ -1,13 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, DateTimeColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'; 
 
 @Entity()
 export class Todo {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 255 })
+  @Column({ type: 'text', nullable: false })
   title: string;
 
-  @DateTimeColumn()
-  dueDate: Date;
+  @Column({ type: 'text' })
+  description?: string;
 }

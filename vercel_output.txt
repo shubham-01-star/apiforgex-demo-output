@@ -1,0 +1,73 @@
+Vercel CLI 50.0.1
+Loading scopes…
+Searching for existing projects…
+Linked to shubhamsingh8348-5858s-projects/kestra-generated-api (created .vercel and added it to .gitignore)
+Retrieving project…
+> Downloading `development` Environment Variables for shubhamsingh8348-5858s-projects/kestra-generated-api
+Downloading
+Created .env.local file and added it to .gitignore [343ms]
+Deploying shubhamsingh8348-5858s-projects/kestra-generated-api
+Uploading [--------------------] (0.0B/151.5KB)
+Uploading [======--------------] (47.4KB/151.5KB)
+Uploading [==========----------] (79.4KB/151.5KB)
+Uploading [================----] (127.4KB/151.5KB)
+Uploading [====================] (151.5KB/151.5KB)
+Inspect: https://vercel.com/shubhamsingh8348-5858s-projects/kestra-generated-api/9T9jYgvX3sNjdsk2DZSmhs6ivVer [4s]
+Production: https://kestra-generated-hz8rpvgkg-shubhamsingh8348-5858s-projects.vercel.app [4s]
+https://kestra-generated-hz8rpvgkg-shubhamsingh8348-5858s-projects.vercel.appQueued...
+Queued...
+Building: Running build in Washington, D.C., USA (East) – iad1
+Building: Build machine configuration: 2 cores, 8 GB
+Building: Retrieving list of deployment files...
+Building: Previous build caches not available.
+Building: Downloading 32 deployment files...
+Building: Running "vercel build"
+Building: Vercel CLI 50.0.1
+Building: Installing dependencies...
+Building: npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+Building: npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+Building: npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+Building: npm warn deprecated rimraf@2.7.1: Rimraf versions prior to v4 are no longer supported
+Building: npm warn deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead
+Building: npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
+Building: npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+Building: added 302 packages in 12s
+Building: 61 packages are looking for funding
+Building: run `npm fund` for details
+Building: Running "npm run build"
+Building: > kestra-generated-api@1.0.0 build
+Building: > tsc
+Building: src/controllers/todo.controller.ts(7,37): error TS2339: Property 'findAll' does not exist on type 'typeof import("/vercel/path0/src/services/todo.service")'.
+Building: src/controllers/todo.controller.ts(16,36): error TS2339: Property 'findById' does not exist on type 'typeof import("/vercel/path0/src/services/todo.service")'.
+Building: src/controllers/todo.controller.ts(27,36): error TS2339: Property 'create' does not exist on type 'typeof import("/vercel/path0/src/services/todo.service")'.
+Building: src/controllers/todo.controller.ts(36,23): error TS2339: Property 'remove' does not exist on type 'typeof import("/vercel/path0/src/services/todo.service")'.
+Building: src/controllers/user.controller.ts(7,37): error TS2339: Property 'findAll' does not exist on type 'typeof import("/vercel/path0/src/services/user.service")'.
+Building: src/controllers/user.controller.ts(16,36): error TS2339: Property 'findById' does not exist on type 'typeof import("/vercel/path0/src/services/user.service")'.
+Building: src/controllers/user.controller.ts(27,36): error TS2339: Property 'create' does not exist on type 'typeof import("/vercel/path0/src/services/user.service")'.
+Building: src/controllers/user.controller.ts(36,23): error TS2339: Property 'remove' does not exist on type 'typeof import("/vercel/path0/src/services/user.service")'.
+Building: src/entities/user.entity.ts(1,56): error TS2307: Cannot find module 'typeorm' or its corresponding type declarations.
+Building: src/entities/user.entity.ts(6,3): error TS2564: Property 'id' has no initializer and is not definitely assigned in the constructor.
+Building: src/entities/user.entity.ts(9,3): error TS2564: Property 'email' has no initializer and is not definitely assigned in the constructor.
+Building: src/models/todo.model.ts(1,72): error TS2307: Cannot find module 'typeorm' or its corresponding type declarations.
+Building: src/models/todo.model.ts(6,3): error TS2564: Property 'id' has no initializer and is not definitely assigned in the constructor.
+Building: src/models/todo.model.ts(9,3): error TS2564: Property 'title' has no initializer and is not definitely assigned in the constructor.
+Building: src/models/todo.model.ts(12,3): error TS2564: Property 'dueDate' has no initializer and is not definitely assigned in the constructor.
+Building: src/models/user.model.ts(1,56): error TS2307: Cannot find module 'typeorm' or its corresponding type declarations.
+Building: src/models/user.model.ts(6,3): error TS2564: Property 'id' has no initializer and is not definitely assigned in the constructor.
+Building: src/models/user.model.ts(9,3): error TS2564: Property 'email' has no initializer and is not definitely assigned in the constructor.
+Building: src/services/todo.service.ts(1,28): error TS2307: Cannot find module '@nestjs/common' or its corresponding type declarations.
+Building: src/services/todo.service.ts(2,34): error TS2307: Cannot find module '@nestjs/typeorm' or its corresponding type declarations.
+Building: src/services/todo.service.ts(3,28): error TS2307: Cannot find module 'typeorm' or its corresponding type declarations.
+Building: src/services/todo.service.ts(10,5): error TS1206: Decorators are not valid here.
+Building: src/services/todo.service.ts(14,20): error TS7006: Parameter 'todoData' implicitly has an 'any' type.
+Building: src/services/todo.service.ts(24,21): error TS7006: Parameter 'id' implicitly has an 'any' type.
+Building: src/services/todo.service.ts(28,24): error TS7006: Parameter 'id' implicitly has an 'any' type.
+Building: src/services/todo.service.ts(28,28): error TS7006: Parameter 'todoData' implicitly has an 'any' type.
+Building: src/services/todo.service.ts(37,24): error TS7006: Parameter 'id' implicitly has an 'any' type.
+Building: src/services/user.service.ts(1,28): error TS2307: Cannot find module '@nestjs/common' or its corresponding type declarations.
+Building: src/services/user.service.ts(2,34): error TS2307: Cannot find module '@nestjs/typeorm' or its corresponding type declarations.
+Building: src/services/user.service.ts(3,28): error TS2307: Cannot find module 'typeorm' or its corresponding type declarations.
+Building: src/services/user.service.ts(4,22): error TS2307: Cannot find module './user.entity' or its corresponding type declarations.
+Building: src/services/user.service.ts(9,5): error TS1206: Decorators are not valid here.
+Building: Error: Command "npm run build" exited with 2
+Error: Command "npm run build" exited with 2

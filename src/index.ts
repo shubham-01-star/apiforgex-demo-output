@@ -4,8 +4,8 @@ import dotenv from 'dotenv';
 import { errorHandler } from './middleware/error.middleware';
 
 // Import Routes
-import usersRoutes from './routes/users.routes';
-import todosRoutes from './routes/todos.routes';
+import userRoutes from './routes/user.routes';
+import todoRoutes from './routes/todo.routes';
 
 dotenv.config();
 
@@ -21,8 +21,8 @@ res.json({ status: 'API is running 🚀', generator: 'ApiforgeX' });
 });
 
 // Register Routes
-app.use('/api/userss', usersRoutes);
-app.use('/api/todoss', todosRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/todos', todoRoutes);
 
 // Error Middleware (Must be last)
 app.use(errorHandler);
