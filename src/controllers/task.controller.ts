@@ -1,16 +1,18 @@
 export const getTasks = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const items = await taskModule.getTasks();
+    const items = await TaskService.getTasks();
     sendResponse(res, 200, items);
   } catch (error) {
     next(error);
   }
 };
 
-export const getTaskById = async (req: Request, res: Response, next: NextFunction) => {
+export const getTask = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = Number(req.params.id);
-    const item = await taskModule.getTask(id);
+    if (!id) return sendResponse(res, 400, null, 'Missing task ID');
+    
+    const item = await TaskService.getTask(id);
     
     if (!item) return sendResponse(res, 404, null, 'Task not found');
     
@@ -24,7 +26,10 @@ export const createTask = async (req: Request, res: Response, next: NextFunction
   try {
     const title = req.body.title;
     const description = req.body.description;
-    const item = await taskModule.createTask(title, description);
+    
+    if (!title || !description) return sendResponse(res, 400, null, 'Missing task details');
+    
+    const item = await TaskService.createTask(title, description);
     sendResponse(res, 201, item, 'Task created successfully');
   } catch (error) {
     next(error);
@@ -33,7 +38,9 @@ export const createTask = async (req: Request, res: Response, next: NextFunction
 
 export const deleteTask = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    await taskModule.deleteTask(Number(req.params.id));
+    if (!Number(req.params.id)) return sendResponse(res, 400, null, 'Missing task ID');
+    
+    await TaskService.deleteTask(Number(req.params.id));
     sendResponse(res, 200, null, 'Task deleted successfully');
   } catch (error) {
     next(error);

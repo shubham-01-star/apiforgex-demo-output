@@ -2,12 +2,11 @@
   Be concise and action-oriented.
   If the code looks good, simply approve.
 
-/chat:
-  instructions: |
-    Please provide feedback only on critical bugs, security vulnerabilities, or significant performance issues.
-    Avoid stylistic nitpicks or opinionated suggestions.
-    Be concise and action-oriented.
-    If the code looks good, simply approve.
+-  instructions: |
++  Please provide feedback only on critical bugs, security vulnerabilities, or significant performance issues.
++  Avoid stylistic nitpicks or opinionated suggestions.
++  Be concise and action-oriented.
++  If the code looks good, simply approve.
 
 
 /chat:

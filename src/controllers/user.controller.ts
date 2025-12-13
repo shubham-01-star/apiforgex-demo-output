@@ -31,21 +31,10 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
   }
 };
 
-export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+export const removeUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     await UserService.remove(Number(req.params.id));
     sendResponse(res, 200, null, 'User deleted successfully');
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const findUserById = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const item = await UserService.findById(Number(req.params.id));
-    if (!item) return sendResponse(res, 404, null, 'User not found');
-    
-    sendResponse(res, 200, item);
   } catch (error) {
     next(error);
   }
@@ -61,15 +50,15 @@ export const findAllUsers = async (req: Request, res: Response, next: NextFuncti
 };
 
 export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const user = await UserService.update(Number(req.params.id), req.body);
-    sendResponse(res, 200, user, 'User updated successfully');
-  } catch (error) {
-    next(error);
-  }
+  // Refactor the controller to call the existing authentication methods
+  const user = await UserService.findOneByUsername(req.body.username);
+  if (!user) return sendResponse(res, 404, null, 'User not found');
+  
+  const updatedUser = await UserService.update(user.id, req.body);
+  sendResponse(res, 200, updatedUser, 'User updated successfully');
 };
 
-export const removeUser = async (req: Request, res: Response, next: NextFunction) => {
+export const deleteUserById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     await UserService.remove(Number(req.params.id));
     sendResponse(res, 200, null, 'User deleted successfully');

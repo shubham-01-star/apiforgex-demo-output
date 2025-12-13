@@ -17,4 +17,4 @@
     "source": "/(.*)",
     "destination": "/dist/index.js"
   }
-]}
+]

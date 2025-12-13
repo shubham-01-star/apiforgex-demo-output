@@ -22,7 +22,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   
-  @unique(username: true)
+  @unique(username: true, email: true)
   id Int
   username String @unique
   email String? @unique(email: true)
