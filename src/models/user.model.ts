@@ -1,17 +1,18 @@
-class User {
-  id: number;
-  username: string;
+export class User {
+  public username: string;
+  public email: string;
 
-  constructor(
-    readonly id: number,
-    required username: string
-  ) {}
-
-  static fromJson(json: any): User | undefined {
-    return json ? new User(json.id, json.username) : undefined;
+  constructor(username: string, email: string) {
+    this.username = username;
+    this.email = email;
   }
 
-  toJson(): { id: number; username: string } {
-    return { id: this.id, username: this.username };
+  static createFromDatabaseRow(row: any): User {
+    const user = new User(row['username'], row['email']);
+    return user;
+  }
+
+  static getTableName(): string {
+    return 'users';
   }
 }

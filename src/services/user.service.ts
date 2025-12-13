@@ -1,32 +1,25 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import * as pg from 'pg';
-import { Repository, TypeORMModuleOptions } from 'typeorm';
+import { prisma } from '../config/db.config';
 
-const connectionConfig = {
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+// Service Layer: Handles Business Logic and Database Interactions
+
+export const findAll = async () => {
+  return await prisma.user.findMany();
 };
 
-@Injectable()
-export class UserService {
-  constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-  ) {}
+export const findById = async (id: number) => {
+  return await prisma.user.findUnique({
+    where: { id }
+  });
+};
 
-  async createUser(username: string, password: string) {
-    const query = `
-      INSERT INTO users (username, password)
-      VALUES ($1, $2)
-    `;
-    const params = [username, password];
-    await this.userRepository.insert(params);
-  }
+export const create = async (data: any) => {
+  return await prisma.user.create({
+    data
+  });
+};
 
-  async getUserById(id: number) {
-    return this.userRepository.findOne(id);
-  }
-}
+export const remove = async (id: number) => {
+  return await prisma.user.delete({
+    where: { id }
+  });
+};
