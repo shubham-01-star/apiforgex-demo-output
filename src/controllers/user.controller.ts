@@ -5,6 +5,9 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
     }
     
     const validatedBody = await validateRequestBody(req.body);
+    if (!validatedBody) {
+      throw new Error('Validation failed');
+    }
     const item = await UserService.create(validatedBody);
     sendResponse(res, 201, item, 'User created successfully');
   } catch (error) {

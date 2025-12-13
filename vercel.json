@@ -12,9 +12,11 @@ if (process.env.NODE_ENV !== 'production') {
     const express = require('express');
     const app = express();
     // Your routes and middleware here
-    app.listen(process.env.PORT, () => {
-      console.log(`Server started on port ${process.env.PORT}`);
-    });
+    if (!process.env.RUN_SERVER) {
+      app.listen(process.env.PORT, () => {
+        console.log(`Server started on port ${process.env.PORT}`);
+      });
+    }
 } else if (process.env.NODE_ENV === 'production') {
   require('./dist/index.js');
 }

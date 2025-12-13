@@ -1,11 +1,14 @@
 version: "0.1"
+ 
+ reviews:
+  - # Enable high-level summary
+    high_level_summary: true
+  - # Review the changes in the context of the entire file
+    verification_status: true
+  - # Auto-review behavior
+    auto_review:
+      enabled: true
+      drafts: false
 
-reviews:
-  high_level_summary: true
-  verification_status: true
-  auto_review:
-    enabled: true
-    drafts: false
-
-chat:
+ chat:
   auto_reply: true
