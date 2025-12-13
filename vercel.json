@@ -1,9 +1,18 @@
 {
-"version": 2,
-"rewrites": [
-{
-"source": "/(.*)",
-"destination": "/src/index.ts"
+    "version": 2,
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/dist/index.js"
+        }
+    ]
 }
-]
+
+if (process.env.NODE_ENV !== 'production') {
+    const express = require('express');
+    const app = express();
+    // Your routes and middleware here
+    app.listen(process.env.PORT, () => {
+      console.log(`Server started on port ${process.env.PORT}`);
+    });
 }
