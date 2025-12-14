@@ -1,0 +1,183 @@
+// This is your Prisma schema file
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  username String?
+  email String?
+  password String?
+}
+
+model Patient {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  patientId Int
+  name String?
+  dateOfBirth DateTime?
+  gender String?
+}
+
+model MedicalRecord {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  medicalRecordId Int
+  patientId Int
+  symptoms String?
+  diagnosis String?
+}
+
+model Appointment {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  appointmentId Int
+  patientId Int
+  date DateTime?
+}
+
+model Doctor {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  doctorId Int
+  name String?
+  specialty String?
+}
+
+model Staff {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  staffId Int
+  name String?
+  position String?
+}
+
+model Bill {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  billId Int
+  patientId Int
+  amount Float?
+}
+
+model Medication {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  medicationId Int
+  patientId Int
+  medicationName String?
+}
+
+model Inventory {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  inventoryId Int
+  itemName String?
+  quantity Int?
+}
+
+model AppointmentSchedule {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  appointmentId Int
+  doctorId Int
+  date DateTime?
+}
+
+model LabTest {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  labTestId Int
+  patientId Int
+  testName String?
+}
+
+model Prescription {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  prescriptionId Int
+  patientId Int
+  medicationName String?
+}
+
+model Insurance {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  insuranceId Int
+  patientId Int
+  insuranceType String?
+}
+
+model Emergency {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  emergencyId Int
+  patientId Int
+  emergencyDescription String?
+}
+
+model BedAllocation {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  bedAllocationId Int
+  wardName String?
+  patientId Int
+}
+
+model AuditTrail {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  auditTrailId Int
+  userId Int?
+  action String?
+}
+
+model UserAudit {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  userAuditId Int
+  userId Int
+  action String?
+}
+
