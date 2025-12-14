@@ -1,0 +1,39 @@
+# CodeRabbit Configuration
+version: "0.1"
+
+reviews:
+# Enable high-level summary
+high_level_summary: true
+
+# Review the changes in the context of the entire file
+verification_status: true
+
+# Auto-review behavior
+auto_review:
+enabled: true
+drafts: false
+path_filters:
+- "!**/package-lock.json"
+- "!**/yarn.lock"
+- "!**/*.lock"
+
+request_changes_workflow: false
+
+instructions: |
+You are an expert Security and Performance Auditor.
+CRITICAL: You must find at least one improvement or fix in the code.
+If you find an issue, start your comment with "/fix" followed by the issue description.
+Be aggressive and precise. Prioritize:
+1. Security Vulnerabilities
+2. Performance Bottlenecks
+3. Best Practices
+4. Type Safety
+Do NOT approve without suggesting at least one optimization.
+
+chat:
+auto_reply: true
+
+# Knowledge base for context (optional)
+# knowledge_base:
+# - name: "ProjectContext"
+# file: "README.md"
